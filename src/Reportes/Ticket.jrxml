@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ticket" language="groovy" pageWidth="525" pageHeight="330" columnWidth="485" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e15d6ce9-b48d-476a-9381-acaed7c4e8fa">
+	<property name="template.type" value="columnar"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="ID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT
+FACTURA.ID
+,FACTURA.DESCPARQ
+,FACTURA.FECHA_INGRESO
+,CLIENTE.NOMBRE 
+ ,CLIENTE.APELLIDO
+,VEHICULO.MATRICULA
+FROM FACTURA
+JOIN ASOCIARCV  ON ASOCIARCV.ID=FACTURA.ID_ASOCIARCV 
+JOIN CLIENTE ON CLIENTE.ID=ASOCIARCV.ID_CLIENTE
+JOIN VEHICULO ON VEHICULO.MATRICULA = ASOCIARCV.MATRICULA where FACTURA.ID=$P{ID};]]>
+	</queryString>
+	<field name="ID" class="java.lang.Object"/>
+	<field name="DESCPARQ" class="java.lang.Object"/>
+	<field name="FECHA_INGRESO" class="java.lang.Object"/>
+	<field name="NOMBRE" class="java.lang.Object"/>
+	<field name="APELLIDO" class="java.lang.Object"/>
+	<field name="MATRICULA" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="128" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="107" y="10" width="292" height="93" uuid="e886c25a-2e61-4fb4-a61a-0b0420bd30f9"/>
+				<textElement>
+					<font size="80" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TICKET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="384" y="73" width="34" height="20" forecolor="#FF3333" uuid="5a476221-0b46-4935-9053-5398faa00a0f"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="418" y="73" width="73" height="18" forecolor="#FF3333" uuid="621e6472-908b-4220-9cf3-10e48c0d9d8b"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{ID}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="2" y="10" width="107" height="93" uuid="d9b90c90-b13b-445e-8b4f-ae2552c17f4b"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="53" y="0" width="154" height="20" forecolor="#000000" uuid="cf5ea554-442e-4273-86c4-e9f8a2431674"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[PARQUEO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="0" width="252" height="18" uuid="94af35fd-ac72-4079-a890-903d80bb612d"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{DESCPARQ}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="53" y="20" width="154" height="20" forecolor="#000000" uuid="cb4c66b8-ce49-4ba0-8b16-90a66caf5d50"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[HORA DE INGRESO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="20" width="252" height="18" uuid="8d225228-b032-41e1-8d0d-1bd4bf85a8e0"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{FECHA_INGRESO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="53" y="40" width="154" height="20" forecolor="#000000" uuid="49da6a10-5e85-4534-af2f-d001d031de24"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="40" width="252" height="18" uuid="186ad14b-e66c-47d3-bead-61833b14c92e"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{NOMBRE}+" "+$F{APELLIDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="53" y="60" width="154" height="20" forecolor="#000000" uuid="c6a62cf9-08ca-45ad-ac9c-01f419920d81"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[MATRICULA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="60" width="252" height="18" uuid="2f8d4ad4-4608-4f5c-8d35-df2bea079cb5"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$F{MATRICULA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="12c255be-3ba3-4b3e-8674-513917deb3f4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="553" height="21" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="d8e4538c-d628-44b5-b219-e76a5583c1bb"/>
+				<textField>
+					<reportElement style="Column header" x="324" y="2" width="165" height="19" forecolor="#FFFFFF" uuid="f383fff9-de04-4b4f-a873-11090e8bc955"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="501" y="1" width="40" height="20" forecolor="#FFFFFF" uuid="4eeecc0e-c0c4-41d1-bcfc-3e934ca1d5fc"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="11" y="1" width="247" height="20" forecolor="#FFFFFF" uuid="b99f1f5e-f840-40b2-81d2-c5c58e4157ea"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
